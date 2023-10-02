@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -13,9 +14,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/deleteUserServlet")
-public class DeleteUserServlet extends HttpServlet {
+@WebServlet("/listusers")
+public class ListUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+   
 	private Connection connection;
 	  
     public void init() {
@@ -30,21 +32,36 @@ public class DeleteUserServlet extends HttpServlet {
 		}
     }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		response.setContentType("text/html");
-		String emailid=request.getParameter("emailid");
 		
 		
 		
-		try(Statement statement=connection.createStatement();) {
-			int result=statement.executeUpdate("delete from user  where email = '"+emailid+"'");
+		
+		try(Statement statement=connection.createStatement();
+				ResultSet result= statement.executeQuery("select * from user");) {
+		
 			PrintWriter out=response.getWriter()	;
-			if(result>0) {
-				out.println("<h1>user deleted</h1>");
-			}else {
-				out.println("<h1>error deleting user </h1>");
+			response.setContentType("text/html");
+			out.println("<table border=1>");
+			out.println("<tr>");
+			out.println("<th>First Name</th>");
+			out.println("<th>Last Name</th>");
+			out.println("<th>Email</th>");
+			out.println("</tr>");
+			while(result.next()) {
+				String firstname=result.getString(1);
+				String lastname=result.getString(2);
+				String email=result.getString(3);
+			out.println("<tr>")	;
+			out.println("<td>"+firstname+"</td>");
+			out.println("<td>"+lastname+"</td>");
+			out.println("<td>"+email+"</td>");
+			out.println("</tr>")	;
+			
+				
 			}
+			out.println("<table>");
 			out.println("<a href=\"index.html\">Home</a>");
 				
 			} catch (SQLException e) {

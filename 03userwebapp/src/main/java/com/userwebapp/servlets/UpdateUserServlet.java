@@ -33,7 +33,7 @@ public class UpdateUserServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		
+		response.setContentType("text/html");
 		String emailid=request.getParameter("emailid");
 		String password=request.getParameter("password");
 		
@@ -46,6 +46,7 @@ public class UpdateUserServlet extends HttpServlet {
 			}else {
 				out.println("<h1>error updating user password</h1>");
 			}
+			out.println("<a href=\"index.html\">Home</a>");
 				
 			} catch (SQLException e) {
 				e.printStackTrace();

@@ -32,7 +32,7 @@ public class AddUserServlet extends HttpServlet {
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		response.setContentType("text/html");
 		String firstname=request.getParameter("firstname");
 		String lastname=request.getParameter("lastname");
 		String emailid=request.getParameter("emailid");
@@ -47,6 +47,7 @@ public class AddUserServlet extends HttpServlet {
 			}else {
 				out.println("<h1>error creating user</h1>");
 			}
+			out.println("<a href=\"index.html\">Home</a>");
 				
 			} catch (SQLException e) {
 				e.printStackTrace();
