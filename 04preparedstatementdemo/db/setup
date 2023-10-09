@@ -1,0 +1,2 @@
+use mydb;
+create table product1(id int,pname varchar(20),description varchar(200),price int);
